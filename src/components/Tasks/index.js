@@ -11,6 +11,11 @@ function Tasks() {
         setTasks([...tasks, { title: 'Title 1', priority: 2}]);
     }
 
+    const handleDeleteTask = (index) => {
+        console.log('Before newList', tasks)
+        setTasks([...tasks, { title: 'Title 1', priority: 2}]);
+    }
+
     useEffect(() => {
         console.log('cambiaron');
     }, [tasks])
