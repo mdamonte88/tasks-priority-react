@@ -2,18 +2,33 @@ import React, { useState, useEffect } from "react"
 import "./index.css";
 
 function Tasks() {
-    const [nameTask, setNameTask] = useState(null)
-    const [priorityTask, setPriorityTask] = useState(null)
+    const [nameTask, setNameTask] = useState('')
+    const [priorityTask, setPriorityTask] = useState('')
     const [tasks, setTasks] = useState([])
 
+    const handleChangeName = (e) => {
+        setNameTask(e.target.value);
+    }
+
+    const handleChangePriority = (e) => {
+        setPriorityTask(e.target.value);
+    }
+
     const handleCreateTask = () => {
-        console.log('Before newList', tasks)
-        setTasks([...tasks, { title: 'Title 1', priority: 2}]);
+        if(!nameTask || !priorityTask) {
+            alert('Please enter both title and task priority');
+        }
+        const newList = [...tasks, { title: nameTask, priority: priorityTask}].sort((a, b) => a.priority - b.priority)
+        setTasks(newList);
     }
 
     const handleDeleteTask = (index) => {
-        console.log('Before newList', tasks)
-        setTasks([...tasks, { title: 'Title 1', priority: 2}]);
+        debugger
+        // const newList = tasks.splice(index, 1);
+        // console.log('task ya borradas', newList);
+        const newList = tasks.filter((task, i) => i !== index);
+
+        setTasks(newList);
     }
 
     useEffect(() => {
@@ -26,10 +41,12 @@ function Tasks() {
                 <input data-testid="input-task-name" className="large mx-8"
                        type = 'text'
                        text = {nameTask}
+                       onChange={handleChangeName}
                        placeholder="Task Title"/>
                 <input data-testid="input-task-priority" className="large mx-8"
                         type = 'number'
                         text = {priorityTask}
+                        onChange={handleChangePriority}
                        placeholder="Task Priority"/>
                 <button data-testid="submit-button" onClick={() => handleCreateTask()} >Add Task</button>
             </section>
@@ -47,7 +64,7 @@ function Tasks() {
                                 <tr key={`row-${i}`}> 
                                     <td> {task.title} </td>
                                     <td> {task.priority} </td>
-                                    <td><button className="danger" onClick={(i) => handleDeleteTask()}>Delete</button></td>
+                                    <td><button className="danger" onClick={() => handleDeleteTask(i)}>Delete</button></td>
                                 </tr>
                             )
                             )}
