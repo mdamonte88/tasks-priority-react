@@ -23,7 +23,6 @@ function Tasks() {
     }
 
     const handleDeleteTask = (index) => {
-        debugger
         // const newList = tasks.splice(index, 1);
         // console.log('task ya borradas', newList);
         const newList = tasks.filter((task, i) => i !== index);
